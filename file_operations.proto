@@ -1,0 +1,48 @@
+syntax = "proto3";
+package FileUploaderPackage;
+
+service FileService {
+    rpc uploadFile(stream FileUploadRequest) returns (FileUploadResponse) {}
+    rpc downloadFile(FileDownloadRequest) returns (FileDownloadResponse) {}
+    rpc renameFile(File) returns (File) {}
+    rpc deleteFile(File) returns (Empty) {}
+}
+
+message FileUploadRequest {
+    oneof data {
+        string name = 1;
+        bytes chunk = 2;
+        string id = 3;
+    };
+}
+
+message Empty {}
+
+message File {
+    string id = 1;
+    string name = 2;
+    string newName = 3;
+}
+
+
+message FileUploadResponse {
+    string id = 1;
+    string name = 2;
+}
+
+message FileDownloadRequest {
+    string id = 1;
+    string name = 2;
+}
+
+message FileDownloadResponse {
+    oneof data {
+        string name = 1;
+        bytes chunk = 2;
+        string id = 3;
+    };
+}
+
+service FileUploaderService {
+    rpc uploadFile(stream FileUploadRequest) returns (FileUploadResponse) {}
+}
