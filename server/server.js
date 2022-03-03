@@ -122,10 +122,10 @@ const deleteFile = (call, callback) => {
 //     watch: true
 // });
 
-let srcDir = './server/syncFolder/'
-let targetDir = './client/syncFolder'
+// let srcDir = './server/syncFolder/'
+// let targetDir = './client/syncFolder'
 
-syncDirectory(srcDir, targetDir);
+// syncDirectory(srcDir, targetDir);
 // syncDirectory.sync(srcDir, targetDir, {
 //     afterEachSync({ eventType, nodeType, relativePath, srcPath, targetPath }) {
 //         console.log('hi')
