@@ -4,6 +4,7 @@ const fs = require("fs");
 var grpc = require('@grpc/grpc-js');
 var protoLoader = require('@grpc/proto-loader');
 const syncDirectory = require('sync-directory');
+var path = require("path");
 
 
 const packageDefinition = protoLoader.loadSync("././file_operations.proto", {
@@ -118,19 +119,22 @@ const deleteFile = (call, callback) => {
 }
 
 
-// const watcher = syncDirectory('./server/syncFolder/', './client/syncFolder', {
-//     watch: true
-// });
 
-// let srcDir = './server/syncFolder/'
-// let targetDir = './client/syncFolder'
+const syncFolder = async (call, callback) => {
+    let folderPath = path.resolve("syncFolder");
 
-// syncDirectory(srcDir, targetDir);
-// syncDirectory.sync(srcDir, targetDir, {
-//     afterEachSync({ eventType, nodeType, relativePath, srcPath, targetPath }) {
-//         console.log('hi')
-//     },
-// });
+    console.log(call.request.path)
+    logger.debug(`gRPC ${call.call.handler.path}`);
+    // let serverFilePath = `server/syncFolder`
+    await syncDirectory.async(call.request.path, folderPath, (err,res)=>{
+        if(err){
+            console.log(err)
+        }
+    }
+    );
+
+    callback(null, {path})
+}
 
 
 
@@ -140,7 +144,8 @@ server.addService(fileUploaderProto.FileService.service, {
   uploadFile: uploadFile,
   downloadFile: downloadFile,
   renameFile: renameFile,
-  deleteFile: deleteFile
+  deleteFile: deleteFile,
+  syncFolder: syncFolder
 });
 
 

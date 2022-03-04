@@ -6,6 +6,11 @@ service FileService {
     rpc downloadFile(FileDownloadRequest) returns (FileDownloadResponse) {}
     rpc renameFile(File) returns (File) {}
     rpc deleteFile(File) returns (Empty) {}
+    rpc syncFolder(Sync) returns (Empty) {}
+}
+
+message Sync {
+    string path = 1;
 }
 
 message FileUploadRequest {
