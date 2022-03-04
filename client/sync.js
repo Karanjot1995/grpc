@@ -7,7 +7,7 @@ let folderPath = path.resolve("./syncFolder");
 client.syncFolder({path:folderPath}, (error, res) => {
     console.log(res)
     if (!error) {
-        console.log('File synced successfully')
+        console.log('syncFolder in client and server synced successfully')
     } else {
         console.error(error)
     }

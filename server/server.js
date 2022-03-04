@@ -3,7 +3,6 @@ const uuid = require('uuid');
 const fs = require("fs");
 var grpc = require('@grpc/grpc-js');
 var protoLoader = require('@grpc/proto-loader');
-const syncDirectory = require('sync-directory');
 var path = require("path");
 var fse = require('fs-extra')
 
