@@ -5,6 +5,7 @@ var grpc = require('@grpc/grpc-js');
 var protoLoader = require('@grpc/proto-loader');
 const syncDirectory = require('sync-directory');
 var path = require("path");
+var fse = require('fs-extra')
 
 
 const packageDefinition = protoLoader.loadSync("././file_operations.proto", {
@@ -121,17 +122,18 @@ const deleteFile = (call, callback) => {
 
 
 const syncFolder = async (call, callback) => {
-    let folderPath = path.resolve("syncFolder");
+    let folderPath = path.resolve("./server/syncFolder");
 
     console.log(call.request.path)
     logger.debug(`gRPC ${call.call.handler.path}`);
     // let serverFilePath = `server/syncFolder`
-    await syncDirectory.async(call.request.path, folderPath, (err,res)=>{
-        if(err){
-            console.log(err)
-        }
-    }
-    );
+    fse.copySync(call.request.path, folderPath)
+    // await syncDirectory.sync(call.request.path, folderPath, (err,res)=>{
+    //     if(err){
+    //         console.log(err)
+    //     }
+    // }
+    // );
 
     callback(null, {path})
 }
